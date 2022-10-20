@@ -1,6 +1,6 @@
 from django.db import models
 from entidades.models import Product, Customer
-from bodegas.models import Warehouse, PalletProduct
+from bodegas.models import Warehouse, PalletProduct, Pallet
 import datetime
 
 # Create your models here.
@@ -23,7 +23,6 @@ class Request(models.Model):
         if _original_request.price != self.price:
             # crear ingreso de bodega y guardar update
             InputWarehouse.objects.create(request_id=self.id, warehouse_id=1)
-            super(Request, self).save(force_insert, force_update, *args, **kwargs)
     super(Request, self).save(force_insert, force_update, *args, **kwargs)
 
 class RequestProduct(models.Model):
@@ -45,14 +44,10 @@ class InputWarehouse(models.Model):
     return self.request.customer.name + " - " + self.request.product.name + " - " + self.date
 
   def save(self, force_insert=False, force_update=False, *args, **kwargs):
-    # solo modelos existentes
-    if self.pk:
-      # chequear si el pedido fue aprobado
-      _original_request = Request.objects.get(id=self.pk)
-      if _original_request.price != self.price:
-          # crear ingreso de bodega y guardar update
-          InputWarehouse.objects.create(request_id=self.id, warehouse_id=1)
-          super(Request, self).save(force_insert, force_update, *args, **kwargs)
+    # crear ingreso de bodega y guardar update
+    Pallet.objects.create(request_id=self.id, warehouse_id=1)
+    PalletProduct.objects.create()
+    InputPalletProduct.objects.create()
     super(Request, self).save(force_insert, force_update, *args, **kwargs)
 
 

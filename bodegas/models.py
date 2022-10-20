@@ -41,13 +41,17 @@ class Section(models.Model):
       return self.name
 
 class Pallet(models.Model):
-  id = models.AutoField(primary_key=True)
+  id = models.CharField(primary_key=True, editable=False, max_length=12)
   section = models.ForeignKey(Section, on_delete=models.PROTECT)
-  code = models.IntegerField()
+  location = models.CharField(max_length=50)
   is_empty = models.BooleanField(default=False)
 
   def __str__(self):
-      return self.code
+      return self.id + " - " + self.location
+
+  def save(self, force_insert=False, force_update=False, *args, **kwargs):
+    if not self.id:
+      self.id = True
 
 class PalletProduct(models.Model):
   pallet = models.ForeignKey(Pallet, on_delete=models.PROTECT)

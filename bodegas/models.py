@@ -49,9 +49,9 @@ class Pallet(models.Model):
   def __str__(self):
       return self.id + " - " + self.location
 
-  def save(self, force_insert=False, force_update=False, *args, **kwargs):
-    if not self.id:
-      self.id = True
+  # def save(self, force_insert=False, force_update=False, *args, **kwargs):
+  #   if not self.id:
+  #     self.id = True
 
 class PalletProduct(models.Model):
   pallet = models.ForeignKey(Pallet, on_delete=models.PROTECT)

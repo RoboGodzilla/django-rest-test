@@ -15,15 +15,15 @@ class Request(models.Model):
   def __str__(self):
     return self.customer.name + " - " + self.motive
 
-  def save(self, force_insert=False, force_update=False, *args, **kwargs):
-    # solo modelos existentes
-    if self.pk:
-        # chequear si el pedido fue aprobado
-        _original_request = Request.objects.get(id=self.pk)
-        if _original_request.price != self.price:
-            # crear ingreso de bodega y guardar update
-            InputWarehouse.objects.create(request_id=self.id, warehouse_id=1)
-    super(Request, self).save(force_insert, force_update, *args, **kwargs)
+  # def save(self, force_insert=False, force_update=False, *args, **kwargs):
+  #   # solo modelos existentes
+  #   if self.pk:
+  #       # chequear si el pedido fue aprobado
+  #       _original_request = Request.objects.get(id=self.pk)
+  #       if _original_request.price != self.price:
+  #           # crear ingreso de bodega y guardar update
+  #           InputWarehouse.objects.create(request_id=self.id, warehouse_id=1)
+  #   super(Request, self).save(force_insert, force_update, *args, **kwargs)
 
 class RequestProduct(models.Model):
   request = models.ForeignKey(Request, on_delete=models.PROTECT)
@@ -43,12 +43,12 @@ class InputWarehouse(models.Model):
   def __str__(self):
     return self.request.customer.name + " - " + self.request.product.name + " - " + self.date
 
-  def save(self, force_insert=False, force_update=False, *args, **kwargs):
-    # crear ingreso de bodega y guardar update
-    Pallet.objects.create(request_id=self.id, warehouse_id=1)
-    PalletProduct.objects.create()
-    InputPalletProduct.objects.create()
-    super(Request, self).save(force_insert, force_update, *args, **kwargs)
+  # def save(self, force_insert=False, force_update=False, *args, **kwargs):
+  #   # crear ingreso de bodega y guardar update
+  #   Pallet.objects.create(request_id=self.id, warehouse_id=1)
+  #   PalletProduct.objects.create()
+  #   InputPalletProduct.objects.create()
+  #   super(Request, self).save(force_insert, force_update, *args, **kwargs)
 
 
 class InputPalletProduct(models.Model):

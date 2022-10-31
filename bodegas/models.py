@@ -41,7 +41,7 @@ class Section(models.Model):
       return self.name
 
 class Pallet(models.Model):
-  id = models.CharField(primary_key=True, editable=False, max_length=12)
+  id = models.CharField(primary_key=True, max_length=12)
   section = models.ForeignKey(Section, on_delete=models.PROTECT)
   location = models.CharField(max_length=50)
   is_empty = models.BooleanField(default=False)
@@ -59,7 +59,7 @@ class PalletProduct(models.Model):
   quantity = models.IntegerField()
 
   def __str__(self):
-      return self.pallet.code + " - " + self.product.name
+      return self.pallet.id + " - " + self.pallet.location + " - " + self.product.name
 
 class Inventory(models.Model):
   customer = models.ForeignKey(Customer, on_delete=models.PROTECT)

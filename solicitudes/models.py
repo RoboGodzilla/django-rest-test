@@ -41,7 +41,7 @@ class InputWarehouse(models.Model):
   comments = models.CharField(max_length=200, blank=True, null=True)
 
   def __str__(self):
-    return self.request.customer.name + " - " + self.request.product.name + " - " + self.date
+    return self.request.customer.name + " - " + self.request.motive + " - " + str(self.date)
 
   # def save(self, force_insert=False, force_update=False, *args, **kwargs):
   #   # crear ingreso de bodega y guardar update
